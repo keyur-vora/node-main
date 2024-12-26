@@ -1,191 +1,121 @@
-const express = require('express')
-const app = express()
-const port = 8000
+const express = require("express");
+const app = express();
+const port = 8000;
 
 // Mongo Connection
-const connectDB = require('./config/db');
+const connectDB = require("./config/db");
 connectDB();
 
-// connect user model / collection
-const BookModel = require(`./models/bookModel`);
-const fs = require('fs')
+// Connect User Model / Collection
+const movieModel = require("./models/movieModel");
+const fs = require("fs");
 
-app.set('view engine', 'ejs')
-app.use(express.urlencoded())
+// Middleware
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
 
+// Static File Handling
+const path = require("path");
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-const path = require('path');
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-const multer = require('multer');
+// Multer Configuration
+const multer = require("multer");
+const { unlinkSync } = require("fs");
 
-const { unlinkSync } = require('fs');
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads");
+  },
+  filename: (req, file, cb) => {
+    const uniqname = Date.now();
+    cb(null, file.fieldname + "-" + uniqname);
+  },
+});
+const fileUpload = multer({ storage }).single("image");
 
-const st = multer.diskStorage({
-    destination: (req, res, cb) => {
-        cb(null, "uploads")
-    },
-    filename: (req, file, cb) => {
-        const uniqname = Date.now();
-        cb(null, file.fieldname + '-' + uniqname)
-    }
-})
+// Routes
 
-const fileUplad = multer({ storage: st }).single('image');
-app.get('/view', (req, res) => {
-    BookModel.find({})
-        .then((detail) => {
-            return res.render('ViewStore', {
-                detail
-            })
-        })
-})
+// View Movies
+app.get("/view", (req, res) => {
+  movieModel
+    .find({})
+    .then((detail) => res.render("ViewStore", { detail }))
+    .catch((err) => console.log(err));
+});
 
-app.get('/', (req, res) => {
+// Add Movie Page
+app.get("/", (req, res) => res.render("Addmovie"));
 
-    return res.render('AddBook')
-})
-app.post('/insertDetail', fileUplad, (req, res) => {
-
-    // console.log(req.body);
-    const { name, price, pages, author } = req.body
-    BookModel.create({
-        name: name,
-        price: price,
-        pages: pages,
-        author: author,
-        image: req.file.path
+// Add Movie
+app.post("/insertDetail", fileUpload, (req, res) => {
+  const { name, price, duration, director } = req.body;
+  movieModel
+    .create({
+      name,
+      price,
+      duration,
+      director,
+      image: req.file.path,
     })
-        .then((data) => {
-            console.log(data);
-            return res.redirect('/View')
-        })
-        .catch((err) => {
-            console.log(err);
-            return false;
+    .then(() => res.redirect("/view"))
+    .catch((err) => console.log(err));
+});
 
-        })
-})
+// Delete Movie
+app.get("/delete", (req, res) => {
+  const deleteId = req.query.deleteId;
 
-// delete 
-app.get('/delete/', (req, res) => {
-    const delid = req.query.deletId;
+  movieModel
+    .findById(deleteId)
+    .then((single) => {
+      try {
+        fs.unlinkSync(single.image);
+      } catch (err) {
+        console.error("Error deleting file:", err);
+      }
+      return movieModel.findByIdAndDelete(deleteId);
+    })
+    .then(() => res.redirect("/view"))
+    .catch((err) => console.log(err));
+});
 
-    // unlink 
-    BookModel.findById(delid)
-        .then((single) => {
-            fs.unlinkSync(single.image)
-            // console.log(delid);
-            BookModel.findByIdAndDelete(delid)
-                .then((data) => {
+// Edit Movie Page
+app.get("/edit", (req, res) => {
+  const editId = req.query.editId;
 
-                    return res.redirect('/View')
+  movieModel
+    .findById(editId)
+    .then((single) => res.render("Editmovie", { single }))
+    .catch((err) => console.log(err));
+});
 
-                })
-                .catch((err) => {
-                    console.log(err);
-                    return false;
+// Update Movie
+app.post("/updateDetail", fileUpload, (req, res) => {
+  const { editid, name, price, duration, director } = req.body;
 
-                })
-        })
-        .catch((err) => {
-            console.log(err);
-            return false;
+  const updateData = { name, price, duration, director };
 
-        })
+  if (req.file) {
+    movieModel
+      .findById(editid)
+      .then((single) => {
+        try {
+          fs.unlinkSync(single.image);
+        } catch (err) {
+          console.error("Error deleting file:", err);
+        }
+        updateData.image = req.file.path;
+        return movieModel.findByIdAndUpdate(editid, updateData);
+      })
+      .then(() => res.redirect("/view"))
+      .catch((err) => console.log(err));
+  } else {
+    movieModel
+      .findByIdAndUpdate(editid, updateData)
+      .then(() => res.redirect("/view"))
+      .catch((err) => console.log(err));
+  }
+});
 
-
-
-})
-// editid
-app.get('/edit', (req, res) => {
-    const eid = req.query.editId;
-    // console.log(eid);
-    BookModel.findById(eid)
-        .then((single) => {
-            // console.log(single);
-
-            return res.render('EditBook', {
-                single
-            })
-        })
-})
-// update
-app.post('/updatetDetail', fileUplad, (req, res) => {
-    const { editid, name, price, pages, author } = req.body
-    if (req.file) {
-        BookModel.findById(editid)
-            .then((single) => {
-
-                fs.unlinkSync(single.image)
-
-            })
-            .catch((err) => {
-                console.log(err);
-                return false;
-            })
-        BookModel.findByIdAndUpdate(editid, {
-            name: name,
-            price: price,
-            pages: pages,
-            author: author,
-            image: req.file.path
-        })
-            .then((data) => {
-                return res.redirect('/View')
-
-            })
-            .catch((err) => {
-                console.log(err);
-                return false;
-            })
-
-    } else {
-        BookModel.findById(editid)
-            .then((single) => {
-                BookModel.findByIdAndUpdate(editid, {
-                    name: name,
-                    price: price,
-                    pages: pages,
-                    author: author,
-                    image: single.image
-                })
-                    .then((data) => {
-                        return res.redirect('/View')
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        return false;
-
-                    })
-
-            })
-
-    }
-
-    // BookModel.findByIdAndUpdate(editId,{
-    //     name:name,
-    //     price:price,
-    //     pages:pages,
-    //     author:author,
-    //     // image: req.file.path
-    // })
-    // .then((data) =>{
-    //     console.log(data);
-    //     return res.redirect('/View')
-
-    // })
-    // .catch((err) =>{
-    //     console.log(err);
-    //     return false;
-
-    // })
-
-})
-
-app.listen(port, (err) => {
-    if (err) {
-        console.log(err);
-        return false
-    }
-    console.log(`Server is running on port ${port}`)
-})
+// Start Server
+app.listen(port, () => console.log(`Server is running on port ${port}`));
