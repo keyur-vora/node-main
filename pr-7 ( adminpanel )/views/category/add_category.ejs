@@ -1,0 +1,42 @@
+<%- include('../header') %>
+
+<div class="page-wrapper" style="background-color: #121212; color: #e0e0e0; min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+
+    <div class="container-fluid d-flex align-items-center justify-content-center" style="width: 100%;">
+
+        <div class="row w-100">
+            <div class="col-md-8 offset-md-2"> <!-- Centered form -->
+
+                <% if(locals?.message?.success) { %>
+                    <div class="alert alert-success" role="alert">
+                        <%= locals?.message?.success %>
+                    </div>
+                <% } %>
+
+                <div class="card" style="background-color: #1e2a35; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3); padding: 30px;">
+                    <form class="form-horizontal" method="post" action="/category/insertcategory">
+                        <div class="card-body">
+                            <h2 class="card-title text-center" style="color: #f8f9fa;">Add Category</h2>
+                            <div class="form-group">
+                                <label for="category" style="color: #b0b3b8; font-size: 18px;">Category Name</label>
+                                <input type="text" id="category" name="category" class="form-control" placeholder="Enter Category Name" 
+                                       style="background-color: #2a3946; color: #f8f9fa; border: none; padding: 12px; border-radius: 5px; font-size: 16px;">
+                            </div>
+                        </div>
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg" 
+                                    style="background-color: #3a71c1; border: none; padding: 12px 40px; border-radius: 5px; font-size: 18px;">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<%- include('../footer') %>

@@ -1,0 +1,67 @@
+<%- include('../header') %>
+
+<div class="page-wrapper" style="background-color: #121212; color: #e0e0e0; min-height: 100vh; display: flex; flex-direction: column;">
+    <div class="page-breadcrumb" style="background-color: #1c1c1c; padding: 10px 20px;">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title" style="color: #ffffff;">Edit Subcategory</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb" style="background-color: #1c1c1c; padding: 0;">
+                            <li class="breadcrumb-item"><a href="#" style="color: #ffffff; text-decoration: none;">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" style="color: #ffffff;">Subcategory</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="padding: 20px; flex: 1;">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <% if(locals?.message?.success) { %>
+                    <div class="alert alert-success" role="alert" style="background-color: #28a745; color: white; border-radius: 5px; margin-bottom: 15px;">
+                        <%= locals?.message?.success %>
+                    </div>
+                <% } %>
+                <div class="card" style="background-color: #1e2a35; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3); padding: 20px;">
+                    <form class="form-horizontal" method="post" action="/subcategory/updatesubcategory">
+                        <input type="hidden" name="editid" value="<%= single?.id %>" />
+                        <div class="card-body">
+                            <h4 class="card-title" style="color: #f8f9fa; margin-bottom: 20px;">Subcategory</h4>
+                            <div class="form-group row" style="margin-bottom: 15px;">
+                                <label for="category" class="col-sm-3 text-right control-label col-form-label" style="color: #b0b3b8; padding-top: 7px;">Category</label>
+                                <div class="col-sm-9">
+                                    <select name="category" class="form-control" style="background-color: #2a3946; color: #f8f9fa; border: none; border-radius: 5px;">
+                                        <option value="">---select category---</option>
+                                        <% category.map((cat)=>{ %>
+                                            <option <% if(single?.categoryId.category==cat?.category) { %> selected <% } %> value="<%= cat?.id %>">
+                                                <%= cat?.category %>
+                                            </option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row" style="margin-bottom: 20px;">
+                                <label for="subcategory" class="col-sm-3 text-right control-label col-form-label" style="color: #b0b3b8; padding-top: 7px;">Subcategory</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="subcategory" value="<%= single?.subcategory %>" class="form-control" placeholder="Subcategory Name Here" style="background-color: #2a3946; color: #f8f9fa; border: none; border-radius: 5px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-top" style="border-top: 1px solid #444444; padding-top: 20px;">
+                            <div class="card-body" style="padding: 0;">
+                                <button type="submit" class="btn btn-primary" style="background-color: #3a71c1; border-color: #3a71c1; border: none; padding: 10px 20px; border-radius: 5px; margin-left: auto; display: block;">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer text-center" style="background-color: #1c1c1c; color: #ffffff; padding: 10px; width: 100%; margin-top: auto; border-top: 1px solid #444444;">
+        All Rights Reserved by Matrix-admin. Designed and Developed by <a href="https://wrappixel.com" style="color: #ffffff; text-decoration: none;">WrapPixel</a>.
+    </footer>
+</div>
+
+<%- include('../footer') %>

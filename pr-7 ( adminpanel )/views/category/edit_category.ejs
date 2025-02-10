@@ -1,0 +1,38 @@
+<%- include('../header') %>
+
+    <div class="page-wrapper"
+        style="display: flex; flex-direction: column; min-height: 100vh; background-color: #121212; color: #e0e0e0;">
+        <div class="container-fluid"
+            style="flex: 1; display: flex; justify-content: center; align-items: center; width: 100%; padding: 20px;">
+            <div class="card"
+                style="width: 100%; max-width: 600px; background-color: #1e2a35; border-radius: 10px; padding: 20px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);">
+                <form class="form-horizontal" method="post" action="/category/updatecategory">
+                    <input type="hidden" name="editid" value="<%= single?.id %>">
+                    <div class="card-body">
+                        <h4 class="card-title" style="text-align: center; margin-bottom: 20px;">Edit Category</h4>
+                        <div class="form-group row" style="display: flex; align-items: center; margin-bottom: 15px;">
+                            <label for="fname" style="flex: 1; text-align: right; padding-right: 10px;">Category
+                                Name</label>
+                            <div style="flex: 2;">
+                                <input type="text" value="<%= single?.category %>" name="category"
+                                    style="width: 100%; padding: 10px; background-color: #2a3946; color: #e0e0e0; border: 1px solid #455a64; border-radius: 5px;"
+                                    placeholder="Category Name Here">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-top" style="text-align: center; padding: 20px;">
+                        <button type="submit"
+                            style="background-color: #1976d2; border: none; width: 100%; padding: 10px; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <footer class="footer" style="background-color: #1e2a35; padding: 10px; text-align: center; color: #b0bec5;">
+            All Rights Reserved by Matrix-admin. Designed and Developed by <a href="https://wrappixel.com"
+                style="color: #90caf9;">WrapPixel</a>.
+        </footer>
+    </div>
+
+    <%- include('../footer') %>

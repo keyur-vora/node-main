@@ -1,0 +1,99 @@
+<%- include('../header') %>
+
+<div class="page-wrapper" style="background-color: #1e2a35; color: #ffffff;">
+    <div class="page-breadcrumb" style="background-color: #1e1e1e; padding: 10px; border-radius: 5px;">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb" style="background-color: #1e2a35; padding: 5px; border-radius: 5px;">
+                            <li class="breadcrumb-item"><a href="#" style="color: #bbb;">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page" style="color: #fff;">Library</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card" style="background-color: #1e1e1e; border: none; color: #fff;">
+                    <% if(locals?.message?.success) { %>
+                        <div class="alert alert-success" role="alert">
+                            <%= locals?.message?.success %>
+                        </div>
+                    <% } %>
+                    <% if(locals?.message?.delete) { %>
+                        <div class="alert alert-danger" role="alert">
+                            <%= locals?.message?.delete %>
+                        </div>
+                    <% } %>
+                    <div class="card-body" style="background-color: #1e2a35 !important;">
+                        <h5 class="card-title m-b-0" style="color: #fff;">View Product</h5>
+                    </div>
+                    <table class="table" style="background-color: #1e1e1e; color: #fff;">
+                        <thead>
+                            <tr style="background-color: #1e2a35;">
+                                <th scope="col">Id</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Subcategory</th>
+                                <th scope="col">Exsubcategory</th>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Image</th>
+                                <th scope="col">Action</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #1e2a35;">
+                            <% exsubcategory.map((exsubcat,index)=>{ %>
+                                <tr>
+                                    <th scope="row">
+                                        <%= ++index %>
+                                    </th>
+                                    <td>
+                                        <%= exsubcat.categoryId.category %>
+                                    </td>
+                                    <td>
+                                        <%= exsubcat.subcategoryId.subcategory %>
+                                    </td>
+                                    <td>
+                                        <%= exsubcat.exsubcategory %>
+                                    </td>
+                                    <td>
+                                        <a href="/exsubcategory/deleteexsubcategory?id=<%= exsubcat?.id %>"
+                                            class="btn btn-danger btn-sm">Delete</a>
+                                        <a href="/exsubcategory/editexsubcategory?id=<%= exsubcat?.id %>"
+                                            class="btn btn-primary btn-sm">Edit</a>
+                                    </td>
+                                    <td>
+                                        <% if(exsubcat?.status==="active" ) { %>
+                                            <a href="/exsubcategory/changestatus?id=<%= exsubcat?.id %>&status=deactive"
+                                                class="btn btn-success btn-sm">
+                                                <%= exsubcat?.status %>
+                                            </a>
+                                        <% } else { %>
+                                            <a href="/exsubcategory/changestatus?id=<%= exsubcat?.id %>&status=active"
+                                                class="btn btn-danger btn-sm">
+                                                <%= exsubcat?.status %>
+                                            </a>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer text-center" style="background-color: #1e2a35; padding: 10px; color: #bbb;">
+        All Rights Reserved by Matrix-admin. Designed and Developed by <a href="https://wrappixel.com" style="color: #fff;">WrapPixel</a>.
+    </footer>
+</div>
+
+<%- include('../footer') %>
