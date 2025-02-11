@@ -1,0 +1,115 @@
+<%- include('../header')%>
+
+    <style>
+        table img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+    </style>
+
+    <div class="pc-container">
+        <div class="pc-content">
+            <div class="page-header">
+                <div class="page-block">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0)">Product</a></li>
+                                <li class="breadcrumb-item" aria-current="page">List</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="page-header-title">
+                                <h2 class="mb-0">View Products</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <% if(locals?.message?.delete){%>
+                        <div class="alert alert-danger" role="alert">
+                            <%= locals.message.delete %>
+                        </div>
+                        <%}%>
+
+                            <div class="card table-card">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover" id="pc-dt-simple">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Product</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Description</th>
+                                                    <th>Image</th>
+                                                    <th class="text-center">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% product.map((pro, index)=> { %>
+                                                    <tr>
+                                                        <td>
+                                                            <%= ++index %>
+                                                        </td>
+                                                        <td>
+                                                            <h6>
+                                                                <%= pro?.product %>
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6>
+                                                                <%= pro?.price %>
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6>
+                                                                <%= pro?.quantity %> <!-- ✅ Correct field name -->
+                                                            </h6>
+                                                        </td>
+                                                        <td>
+                                                            <h6>
+                                                                <%= pro?.description %>
+                                                            </h6>
+                                                        </td>
+                                                        <td><img src="<%= pro?.image %>" alt="Product Image"></td>
+
+                                                        <td class="text-center">
+                                                            <ul class="list-inline me-auto mb-0">
+                                                                <li class="list-inline-item align-bottom"
+                                                                    data-bs-toggle="tooltip" title="Edit">
+                                                                    <a href="/product/editeproduct?id=<%= pro.id %>"
+                                                                        class="avtar avtar-xs btn-link-success btn-pc-default">
+                                                                        <i class="ti ti-edit-circle f-18"></i>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="list-inline-item align-bottom"
+                                                                    data-bs-toggle="tooltip" title="Delete">
+                                                                    <a href="/product/deleteproduct?id=<%= pro.id %>"
+                                                                        class="avtar avtar-xs btn-link-danger btn-pc-default">
+                                                                        <i class="ti ti-trash f-18"></i>
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <% }) %>
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../footer')%>

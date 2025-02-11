@@ -1,0 +1,92 @@
+<%- include('../header')%>
+
+    <section class="pc-container">
+        <div class="pc-content">
+            <div class="page-header">
+                <div class="page-block">
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="../dashboard/index.html">Home</a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0)">Forms</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Add Product</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="page-header-title">
+                                <h2 class="mb-0">Add Product</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <% if(locals?.message?.success){ %>
+                        <div class="alert alert-success" role="alert">
+                            <strong>Success!</strong>
+                            <%= locals.message.success %>
+                        </div>
+                        <% } %>
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="/product/insertproduct" method="post" enctype="multipart/form-data">
+
+                                        <div class="form-group row mb-3">
+                                            <label class="col-form-label col-lg-3 col-sm-12 text-lg-end">Name</label>
+                                            <div class="col-lg-5 col-md-9 col-sm-12">
+                                                <input class="form-control" name="product" type="text"
+                                                    placeholder="Product Name" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-3">
+                                            <label class="col-form-label col-lg-3 col-sm-12 text-lg-end">Price</label>
+                                            <div class="col-lg-5 col-md-9 col-sm-12">
+                                                <input class="form-control" name="price" type="number"
+                                                    placeholder="Price" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-3">
+                                            <label
+                                                class="col-form-label col-lg-3 col-sm-12 text-lg-end">Quantity</label>
+                                            <div class="col-lg-5 col-md-9 col-sm-12">
+                                                <input class="form-control" name="quantity" type="number"
+                                                    placeholder="Quantity" required> <!-- ✅ Fixed name="quantity" -->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-3">
+                                            <label
+                                                class="col-form-label col-lg-3 col-sm-12 text-lg-end">Description</label>
+                                            <div class="col-lg-5 col-md-9 col-sm-12">
+                                                <textarea class="form-control" name="description"
+                                                    placeholder="Description" required></textarea>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-3">
+                                            <label class="col-form-label col-lg-3 col-sm-12 text-lg-end">Image</label>
+                                            <div class="col-lg-5 col-md-9 col-sm-12">
+                                                <input class="form-control" name="image" type="file" required>
+                                            </div>
+                                        </div>
+
+                                        <div class="text-end p-4 pb-sm-2">
+                                            <button type="submit"
+                                                class="btn btn-primary d-inline-flex align-item-center">
+                                                <i class="ti ti-plus f-18"></i> Submit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('../footer')%>

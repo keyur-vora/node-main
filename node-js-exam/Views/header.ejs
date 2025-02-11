@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Home | Mantis Bootstrap 5 Admin Template</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description"
+        content="Mantis is made using Bootstrap 5 design framework. Download the free admin template & use it for your project.">
+    <meta name="keywords"
+        content="Mantis, Dashboard UI Kit, Bootstrap 5, Admin Template, Admin Dashboard, CRM, CMS, Bootstrap Admin Template">
+    <meta name="author" content="CodedThemes">
+
+    <link rel="icon" href="../assets/images/favicon.svg" type="image/x-icon">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+        id="main-font-link">
+    <link rel="stylesheet" href="../assets/fonts/tabler-icons.min.css">
+    <link href="https://unpkg.com/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/fonts/feather.css">
+    <link rel="stylesheet" href="../assets/fonts/fontawesome.css">
+    <link rel="stylesheet" href="../assets/fonts/material.css">
+    <link rel="stylesheet" href="../assets/css/style.css" id="main-style-link">
+    <link rel="stylesheet" href="../assets/css/style-preset.css">
+
+    <style>
+        /* Dark Mode Styles with!important */
+        body.dark-mode {
+            background-color: #1a2027!important;
+            color: #e2e8f0!important;
+        }
+    
+        body.dark-mode.pc-sidebar {
+            background-color: #2d3748!important;
+        }
+    
+        body.dark-mode.pc-sidebar.pc-navbar.pc-item.pc-link {
+            color: #e2e8f0!important;
+        }
+    
+        body.dark-mode.card {
+            background-color: #28313c!important;
+            border-color: #3d4857!important;
+            color: #e2e8f0!important;
+        }
+    
+        body.dark-mode.table {
+            color: #e2e8f0!important;
+        }
+    
+        body.dark-mode.table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05)!important;
+        }
+    
+        body.dark-mode input,
+        body.dark-mode textarea,
+        body.dark-mode select {
+            background-color: #374151!important;
+            color: #e2e8f0!important;
+            border-color: #4b5563!important;
+        }
+    
+        body.dark-mode.btn-primary {
+            background-color: #4f46e5!important;
+            border-color: #4f46e5!important;
+        }
+    
+        /*... other styles with!important as needed... */
+    </style>
+
+</head>
+
+<body data-pc-preset="preset-1" data-pc-direction="ltr" data-pc-theme="light">
+    <div class="loader-bg">
+        <div class="loader-track">
+            <div class="loader-fill"></div>
+        </div>
+    </div>
+    <nav class="pc-sidebar">
+        <div class="navbar-wrapper">
+
+            <div class="navbar-content">
+                <ul class="pc-navbar">
+                    <li class="pc-item">
+                        <a href="/deshboard" class="pc-link">
+                            <span class="pc-micon"><i class="ti ti-dashboard"></i></span>
+                            <span class="pc-mtext">Dashboard</span>
+                        </a>
+                    </li>
+
+
+
+
+                    <li class="pc-item pc-hasmenu">
+                        <a href="#!" class="pc-link"><span class="pc-micon"><i
+                                    class='bx bxs-category-alt'></i></span><span class="pc-mtext">View
+                                product</span><span class="pc-arrow"><i data-feather="chevron-right"></i></span></a>
+                        <ul class="pc-submenu">
+                            <li class="pc-item"><a class="pc-link" href="/product/addproduct">Add Product</a></li>
+                            <li class="pc-item"><a class="pc-link" href="/product/">View Product</a></li>
+
+
+                        </ul>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <button id="dark-mode-toggle" class="btn btn-dark">Toggle Dark Mode</button>
+
+    <script>
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+
+            // Store user preference in localStorage
+            if (body.classList.contains('dark-mode')) {
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+
+        // Check localStorage for saved preference on page load
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            body.classList.add('dark-mode');
+        }
+    </script>
